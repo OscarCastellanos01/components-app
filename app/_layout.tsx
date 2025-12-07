@@ -2,9 +2,13 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
-import { Text, View } from 'react-native';
+import { useThemeColor } from '@/hooks/use-theme-color';
+import ThemedView from '@/presentation/shared/ThemedView';
+import ThemeText from '@/presentation/shared/ThemeText';
 import "../global.css";
 
 export const unstable_settings = {
@@ -12,14 +16,23 @@ export const unstable_settings = {
 };
 
 export default function RootLayout() {
+  // const backgroundColor = useThemeColor({light: 'red', dark: 'indigo'}, 'background');
+  const backgroundColor = useThemeColor({}, 'background');
+
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <View className=' bg-light-background dark:bg-dark-background'>
-        <Text className='mt-10 text-3xl text-light-primary dark:text-dark-primary'>Hola Mundo</Text>
-      </View>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <GestureHandlerRootView
+      style={{ backgroundColor: backgroundColor, flex: 1 }}
+    >
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <ThemedView>
+          <ThemeText clasnName='mt-20'>
+            Hola Mundo
+          </ThemeText>
+        </ThemedView>
+        <StatusBar style="auto" />
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }
