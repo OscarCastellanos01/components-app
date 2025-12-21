@@ -1,4 +1,3 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
@@ -10,6 +9,7 @@ import { allRoutes } from '@/constants/Routes';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { Stack } from 'expo-router';
 import "../global.css";
+import { ThemeChangerProvider } from '../presentation/context/ThemeChangerContext';
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -25,7 +25,8 @@ export default function RootLayout() {
     <GestureHandlerRootView
       style={{ backgroundColor: backgroundColor, flex: 1 }}
     >
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      {/* <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}> */}
+      <ThemeChangerProvider>
         <Stack
           screenOptions={{
             headerShadowVisible: false,
@@ -49,13 +50,14 @@ export default function RootLayout() {
               name={route.name}
               options={{
                 title: route.title,
-                headerShown: !route.title.includes('Slides'),
+                headerShown: !route.title.includes("Slides"),
               }}
             />
           ))}
         </Stack>
         <StatusBar style="auto" />
-      </ThemeProvider>
+      </ThemeChangerProvider>
+      {/* </ThemeProvider> */}
     </GestureHandlerRootView>
   );
 }
