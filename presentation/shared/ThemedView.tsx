@@ -16,7 +16,7 @@ const ThemedView = ({
     children,
 }: Props) => {
   return (
-    <View className={`bg-light-background dark:bg-dark-background mx-3 ${className}`}>
+    <View className={`bg-light-background dark:bg-dark-background ${className}`}>
       {children}
     </View>
   );
